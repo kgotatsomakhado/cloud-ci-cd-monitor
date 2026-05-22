@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CI/CD Monitor Dashboard</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0b1220;
+      color: #e5e7eb;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    /* STATUS BANNER */
+    .banner {
+      margin: 20px auto;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .success-banner {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid #22c55e;
+    }
+
+    .fail-banner {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+    }
+
+    .running-banner {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid #f59e0b;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    /* CARD */
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      border-radius: 14px;
+      backdrop-filter: blur(10px);
+      transition: 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* STATUS BADGE */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .success {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    .failure {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    .running {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+    }
+
+    /* LOADING */
+    #loading {
+      text-align: center;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>🚀 CI/CD Monitor</h1>
+    <p>Live GitHub Actions powered by Azure Functions</p>
+  </div>
+
+  <!-- STATUS BANNER -->
+  <div id="banner"></div>
+
+  <div id="loading">Loading workflows...</div>
+
+  <!-- GRID -->
+  <div class="grid" id="runs"></div>
+
+</div>
+
+<script>
+
+const API_URL = "https://github-monitor-func-geaza8b2dfcagfbh.westeurope-01.azurewebsites.net/api/getWorkflowStatus";
+
+async function loadWorkflows() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    const container = document.getElementById("runs");
+    const banner = document.getElementById("banner");
+    const loading = document.getElementById("loading");
+
+    loading.style.display = "none";
+    container.innerHTML = "";
+
+    const latest = data.runs[0];
+
+    // BANNER
+    if (latest.conclusion === "success") {
+      banner.className = "banner success-banner";
+      banner.innerText = `Last Deployment: SUCCESS ✔ (${latest.branch})`;
+    } else if (latest.conclusion === "failure") {
+      banner.className = "banner fail-banner";
+      banner.innerText = `Last Deployment: FAILED ✖ (${latest.branch})`;
+    } else {
+      banner.className = "banner running-banner";
+      banner.innerText = `Last Deployment: RUNNING ⏳ (${latest.branch})`;
+    }
+
+    // CARDS
+    data.runs.forEach(run => {
+      const card = document.createElement("div");
+
+      let statusClass = "running";
+      if (run.conclusion === "success") statusClass = "success";
+      if (run.conclusion === "failure") statusClass = "failure";
+
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="title">${run.name}</div>
+        <p><span class="badge ${statusClass}">${run.conclusion || "running"}</span></p>
+        <p><b>Branch:</b> ${run.branch}</p>
+        <p><b>Status:</b> ${run.status}</p>
+        <p><b>Time:</b> ${new Date(run.created_at).toLocaleString()}</p>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch (err) {
+    document.getElementById("loading").innerText =
+      "Error loading workflows";
+    console.error(err);
+  }
+}
+
+loadWorkflows();
+setInterval(loadWorkflows, 10000);
+
+</script>
+
+</body>
+</html>
