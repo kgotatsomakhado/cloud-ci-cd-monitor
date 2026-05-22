@@ -10,3 +10,7 @@ Here is a schematic:
 <p align="center">
   <img src="assets/schematic.png" width="900">
 </p>
+
+The CI/CD monitoring website will also need to be updated time to time, so i created a ci/cd pipeline for that as well to be able to locally edit the code and push it into my repository and then it must automatically update the website hosted on Azure Blob.
+
+Here is a schematic of the pipeline that updates the Azure hosted CI/CD monitoring website:
