@@ -6,4 +6,7 @@ To solve this, I built a CI/CD monitoring dashboard using Microsoft Azure servic
 
 The result is a single, centralised dashboard that removes the need to manually navigate GitHub to check workflow status. Instead of logging into multiple platforms, I can now open one link and immediately see whether my deployments succeeded, failed, or are currently running. This improves visibility, reduces friction in the development workflow, and provides a more efficient way to monitor CI/CD pipelines across different cloud projects.
 
-Here is a schematic
+Here is a schematic:
+<p align="center">
+  <img src="assets/schematic.png" width="900">
+</p>
