@@ -68,7 +68,6 @@
       margin-top: 20px;
     }
 
-    /* CARD */
     .card {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -88,7 +87,6 @@
       margin-bottom: 10px;
     }
 
-    /* STATUS BADGE */
     .badge {
       display: inline-block;
       padding: 4px 10px;
@@ -112,7 +110,6 @@
       color: #f59e0b;
     }
 
-    /* LOADING */
     #loading {
       text-align: center;
       color: #94a3b8;
@@ -125,16 +122,15 @@
 <div class="container">
 
   <div class="header">
-    <h1>🚀 CI/CD Monitor</h1>
+    <h1>🚀 CI/CD Monitor test</h1>
     <p>Live GitHub Actions powered by Azure Functions</p>
   </div>
 
-  <!-- STATUS BANNER -->
+
   <div id="banner"></div>
 
   <div id="loading">Loading workflows...</div>
 
-  <!-- GRID -->
   <div class="grid" id="runs"></div>
 
 </div>
@@ -157,7 +153,6 @@ async function loadWorkflows() {
 
     const latest = data.runs[0];
 
-    // BANNER
     if (latest.conclusion === "success") {
       banner.className = "banner success-banner";
       banner.innerText = `Last Deployment: SUCCESS ✔ (${latest.branch})`;
@@ -169,7 +164,6 @@ async function loadWorkflows() {
       banner.innerText = `Last Deployment: RUNNING ⏳ (${latest.branch})`;
     }
 
-    // CARDS
     data.runs.forEach(run => {
       const card = document.createElement("div");
 
