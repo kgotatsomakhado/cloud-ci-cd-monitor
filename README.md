@@ -15,5 +15,5 @@ The CI/CD monitoring website will also need to be updated time to time, so i cre
 
 Here is a schematic of the pipeline that updates the Azure hosted CI/CD monitoring website:
 <p align="center">
-  <img src="assets/schematic2.png" width="900">
+  <img src="assets/schematic2.jpg">
 </p>
