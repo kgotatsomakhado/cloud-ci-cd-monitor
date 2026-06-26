@@ -9,9 +9,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -27,7 +25,6 @@
       padding: 18px;
     }
 
-    /* HEADER */
     .header {
       text-align: center;
       margin-bottom: 22px;
@@ -54,25 +51,43 @@
       text-align: center;
       font-weight: 600;
       font-size: clamp(0.85rem, 2.5vw, 1rem);
-
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
     }
 
-    .success-banner {
-      background: rgba(34, 197, 94, 0.12);
-      color: #4ade80;
+    .success-banner { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+    .fail-banner { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .running-banner { background: rgba(245, 158, 11, 0.12); color: #fbbf24; }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 16px 0;
     }
 
-    .fail-banner {
-      background: rgba(239, 68, 68, 0.12);
-      color: #f87171;
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
     }
 
-    .running-banner {
-      background: rgba(245, 158, 11, 0.12);
-      color: #fbbf24;
+    .stat-card h3 {
+      margin: 0;
+      font-size: 12px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .stat-card span {
+      font-size: 18px;
+      font-weight: 700;
+      display: block;
+      margin-top: 6px;
     }
 
     /* GRID */
@@ -89,11 +104,10 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       padding: 16px;
       border-radius: 16px;
-
       backdrop-filter: blur(14px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-
       transition: all 0.2s ease;
+      cursor: pointer;
     }
 
     .card:hover {
@@ -126,25 +140,12 @@
       border-radius: 999px;
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.3px;
     }
 
-    .success {
-      background: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-    }
+    .success { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .failure { background: rgba(239,68,68,0.15); color: #f87171; }
+    .running { background: rgba(245,158,11,0.15); color: #fbbf24; }
 
-    .failure {
-      background: rgba(239, 68, 68, 0.15);
-      color: #f87171;
-    }
-
-    .running {
-      background: rgba(245, 158, 11, 0.15);
-      color: #fbbf24;
-    }
-
-    /* LOADING */
     #loading {
       text-align: center;
       color: #94a3b8;
@@ -152,30 +153,230 @@
       font-size: 0.9rem;
     }
 
-    /* MOBILE */
     @media (max-width: 768px) {
-      .container {
-        padding: 12px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
+      .stats { grid-template-columns: repeat(2, 1fr); }
     }
 
-    @media (max-width: 400px) {
-      .header h1 {
-        font-size: 1.3rem;
-      }
+/* ---------------- PAGINATION BUTTON ---------------- */
+.page-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
-      .card {
-        padding: 14px;
-      }
+  color: #e5e7eb;
 
-      .card p {
-        font-size: 0.8rem;
-      }
-    }
+  padding: 10px 16px;
+  border-radius: 14px;
+
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  transition: all 0.25s ease;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+  line-height: 1;
+
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------------- HOVER ---------------- */
+.page-btn:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------------- ACTIVE ---------------- */
+.page-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------------- DISABLED ---------------- */
+.page-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  transform: none;
+
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ---------------- PAGE INFO TEXT ---------------- */
+.page-info {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  vertical-align: middle;
+
+  padding: 0 10px;
+  height: 38px;
+
+  line-height: 1;
+}
+    
+.stat-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  padding: 12px;
+  gap: 20px;
+  border-radius: 12px;
+  text-align: center;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 0 22px rgba(1, 81, 255, 0.25),
+    0 12px 30px rgba(1, 81, 255, 0.25);
+}  
+
+.bar-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Inter', sans-serif;
+}
+
+.bar-segment {
+  width: 10px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.bar-segment.filled {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+}
+
+.bar-segment.empty {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.bar-percent {
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+
+/* ================================
+   MOBILE OPTIMIZATION PATCH
+   (SAFE ADD-ON — DO NOT REMOVE EXISTING CSS)
+================================ */
+
+/* Prevent horizontal scrolling issues */
+html, body {
+  overflow-x: hidden;
+}
+
+/* ================================
+   STATS RESPONSIVENESS
+================================ */
+@media (max-width: 500px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 10px;
+  }
+
+  .stat-card span {
+    font-size: 16px;
+  }
+}
+
+/* ================================
+   CARD MOBILE TUNING
+================================ */
+@media (max-width: 480px) {
+  .card {
+    padding: 14px;
+  }
+
+  .title {
+    font-size: 0.92rem;
+  }
+
+  .card p {
+    font-size: 0.8rem;
+  }
+}
+
+/* ================================
+   PAGINATION MOBILE FIX
+================================ */
+@media (max-width: 480px) {
+  #pagination {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .page-btn {
+    padding: 9px 12px;
+    font-size: 0.8rem;
+  }
+
+  .page-info {
+    width: 100%;
+    text-align: center;
+    padding: 6px 0;
+  }
+}
+
+/* ================================
+   SUCCESS RATE BAR MOBILE FIX
+================================ */
+@media (max-width: 480px) {
+  .bar-container {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .bar-segment {
+    width: 8px;
+    height: 12px;
+  }
+
+  .bar-percent {
+    width: 100%;
+    text-align: left;
+    margin-top: 6px;
+  }
+}
+
+/* ================================
+   HEADER MOBILE POLISH
+================================ */
+@media (max-width: 400px) {
+  .header h1 {
+    font-size: 1.4rem;
+  }
+
+  .header p {
+    font-size: 0.8rem;
+  }
+}
   </style>
 </head>
 
@@ -188,12 +389,30 @@
     <p>Live GitHub Actions powered by Azure Functions</p>
   </div>
 
-  <!-- STATUS BANNER -->
   <div id="banner"></div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card">
+      <h3>Total</h3>
+      <span id="totalRuns">0</span>
+    </div>
+    <div class="stat-card">
+      <h3>Success</h3>
+      <span id="successRuns">0</span>
+    </div>
+    <div class="stat-card">
+      <h3>Failed</h3>
+      <span id="failedRuns">0</span>
+    </div>
+    <div class="stat-card">
+      <h3>Running</h3>
+      <span id="runningRuns">0</span>
+    </div>
+  </div>
 
   <div id="loading">Loading workflows...</div>
 
-  <!-- GRID -->
   <div class="grid" id="runs"></div>
 
 </div>
@@ -202,59 +421,226 @@
 
 const API_URL = "https://github-monitor-func-geaza8b2dfcagfbh.westeurope-01.azurewebsites.net/api/getWorkflowStatus";
 
+// ---------------- STATE ----------------
+let allRuns = [];
+let currentPage = 1;
+const pageSize = 9;
+let firstLoad = true;
+
+// ---------------- HELPERS ----------------
+function formatDuration(start, end, status) {
+  if (!start) return "-";
+
+  const startTime = new Date(start);
+  const endTime = end ? new Date(end) : new Date();
+
+  const diff = Math.floor((endTime - startTime) / 1000);
+
+  const min = Math.floor(diff / 60);
+  const sec = diff % 60;
+
+  if (status === "in_progress") return `${sec}s`;
+  return `${min}m ${sec}s`;
+}
+
+function formatTime(dateStr) {
+  return new Date(dateStr).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+// ---------------- RENDER PAGINATION ----------------
+function renderPage() {
+  const container = document.getElementById("runs");
+  container.innerHTML = "";
+
+  const start = (currentPage - 1) * pageSize;
+  const end = start + pageSize;
+
+  const pageData = allRuns.slice(start, end);
+
+  pageData.forEach(run => {
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const status = run.conclusion || "running";
+
+    let statusClass = "running";
+    if (status === "success") statusClass = "success";
+    if (status === "failure") statusClass = "failure";
+
+    const isRunning = status === "running";
+
+    const started = formatTime(run.created_at);
+
+    const duration = formatDuration(
+      run.created_at,
+      run.updated_at,
+      run.status
+    );
+
+    card.onclick = () => {
+      if (run.html_url) window.open(run.html_url, "_blank");
+    };
+
+    card.innerHTML = `
+      <div class="title">${run.name}</div>
+
+      <p><span class="badge ${statusClass}">
+        ${status.toUpperCase()}
+      </span></p>
+
+      <p><b>Branch:</b> ${run.branch}</p>
+
+      <p><b>Status:</b> ${isRunning ? "In Progress" : "Completed"}</p>
+
+      <p><b>Started:</b> ${started}</p>
+
+      <p><b>Duration:</b> ${duration}</p>
+    `;
+
+    container.appendChild(card);
+  });
+
+  updatePaginationUI();
+}
+
+// ---------------- PAGINATION UI ----------------
+function updatePaginationUI() {
+  let pg = document.getElementById("pagination");
+
+  if (!pg) {
+    pg = document.createElement("div");
+    pg.id = "pagination";
+    pg.style.display = "flex";
+    pg.style.justifyContent = "center";
+    pg.style.gap = "10px";
+    pg.style.margin = "16px 0";
+
+    pg.innerHTML = `
+      <button id="prevBtn" class="page-btn">Previous</button>
+      <span id="pageInfo" class="page-info"></span>
+      <button id="nextBtn" class="page-btn">Next</button>
+    `;
+
+    document.querySelector(".container").appendChild(pg);
+
+    document.getElementById("prevBtn").onclick = () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+      }
+    };
+
+    document.getElementById("nextBtn").onclick = () => {
+      if (currentPage < Math.ceil(allRuns.length / pageSize)) {
+        currentPage++;
+        renderPage();
+      }
+    };
+  }
+
+  document.getElementById("pageInfo").innerText =
+    `Page ${currentPage} / ${Math.ceil(allRuns.length / pageSize)}`;
+
+  document.getElementById("prevBtn").disabled = currentPage === 1;
+  document.getElementById("nextBtn").disabled =
+    currentPage === Math.ceil(allRuns.length / pageSize);
+}
+
+// ---------------- MAIN ----------------
 async function loadWorkflows() {
   try {
 
     const res = await fetch(API_URL);
     const data = await res.json();
 
-    const container = document.getElementById("runs");
     const banner = document.getElementById("banner");
     const loading = document.getElementById("loading");
 
     loading.style.display = "none";
-    container.innerHTML = "";
 
-    const latest = data.runs[0];
+    const newRuns = data.runs || [];
 
-    // STATUS BANNER
-    if (latest.conclusion === "success") {
-      banner.className = "banner success-banner";
-      banner.innerText = `Last Deployment: SUCCESS ✔ (${latest.branch})`;
-    } else if (latest.conclusion === "failure") {
-      banner.className = "banner fail-banner";
-      banner.innerText = `Last Deployment: FAILED ✖ (${latest.branch})`;
-    } else {
-      banner.className = "banner running-banner";
-      banner.innerText = `Last Deployment: RUNNING ⏳ (${latest.branch})`;
+    allRuns = newRuns;
+
+    const maxPage = Math.ceil(allRuns.length / pageSize);
+
+    if (firstLoad) {
+      currentPage = 1;
+      firstLoad = false;
     }
 
-    // CARDS
-    data.runs.forEach(run => {
+    if (currentPage > maxPage) {
+      currentPage = maxPage;
+    }
 
-      const card = document.createElement("div");
+    // ---------------- STATS ----------------
+    document.getElementById("totalRuns").innerText = data.total || 0;
+    document.getElementById("successRuns").innerText = data.success || 0;
+    document.getElementById("failedRuns").innerText = data.failed || 0;
+    document.getElementById("runningRuns").innerText = data.running || 0;
 
-      let statusClass = "running";
-      if (run.conclusion === "success") statusClass = "success";
-      if (run.conclusion === "failure") statusClass = "failure";
+    // ---------------- SUCCESS RATE (SEGMENTED GREEN BARS) ----------------
+    const rate = data.total ? Math.round((data.success / data.total) * 100) : 0;
 
-      card.className = "card";
+    const blocks = 20;
+    const filled = Math.round((rate / 100) * blocks);
 
-      card.innerHTML = `
-        <div class="title">${run.name}</div>
-        <p><span class="badge ${statusClass}">${run.conclusion || "running"}</span></p>
-        <p><b>Branch:</b> ${run.branch}</p>
-        <p><b>Status:</b> ${run.status}</p>
-        <p><b>Time:</b> ${new Date(run.created_at).toLocaleString()}</p>
-      `;
+    let bar = "";
+    for (let i = 0; i < blocks; i++) {
+      bar += i < filled
+        ? `<span class="bar-segment filled"></span>`
+        : `<span class="bar-segment empty"></span>`;
+    }
 
-      container.appendChild(card);
-    });
+    let rateDiv = document.getElementById("successRate");
+
+    if (!rateDiv) {
+      rateDiv = document.createElement("div");
+      rateDiv.id = "successRate";
+      rateDiv.style.margin = "10px 0 20px";
+      rateDiv.style.color = "#cbd5e1";
+      rateDiv.style.fontSize = "0.9rem";
+
+      document.querySelector(".container").insertBefore(
+        rateDiv,
+        document.getElementById("runs")
+      );
+    }
+
+    rateDiv.innerHTML = `
+      <div style="margin-bottom:6px;">Deployment Success Rate</div>
+      <div class="bar-container">
+        ${bar}
+        <span class="bar-percent">${rate}%</span>
+      </div>
+    `;
+
+    // ---------------- BANNER ----------------
+    const latest = allRuns[0];
+
+    if (latest) {
+      if (latest.conclusion === "success") {
+        banner.className = "banner success-banner";
+        banner.innerText = `Last Deployment: SUCCESS (${latest.branch})`;
+      } else if (latest.conclusion === "failure") {
+        banner.className = "banner fail-banner";
+        banner.innerText = `Last Deployment: FAILED (${latest.branch})`;
+      } else {
+        banner.className = "banner running-banner";
+        banner.innerText = `Last Deployment: RUNNING (${latest.branch})`;
+      }
+    }
+
+    renderPage();
 
   } catch (err) {
+    console.error(err);
     document.getElementById("loading").innerText =
       "Error loading workflows";
-    console.error(err);
   }
 }
 
