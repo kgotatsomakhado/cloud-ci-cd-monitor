@@ -13,14 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Upload files to Azure Storage
+      - name: Upload frontend to Azure Blob Storage
         uses: azure/CLI@v1
-
         with:
           inlineScript: |
             az storage blob upload-batch \
               --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
               --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
               --destination '$web' \
-              --source . \
+              --source ./frontend \
               --overwrite
