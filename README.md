@@ -1,19 +1,62 @@
-I built a CI/CD pipeline monitoring system for multiple cloud architectures to improve visibility into automated deployments. Prior to this project, I created a CI/CD pipeline for an AWS S3-hosted static website (http://shumba-cloud-portfolio.s3-website-eu-west-1.amazonaws.com), which allows me to develop code locally, push changes to a GitHub repository, and automatically trigger deployment through GitHub Actions to update the S3 bucket. This removed the need to manually log into AWS, locate the S3 bucket, and upload files after each change, significantly improving deployment efficiency and reducing manual work.
+# CI/CD Pipeline Monitoring System
 
-Although the deployment process was automated, monitoring the outcome of each pipeline still required manual checking. To verify whether a deployment succeeded or failed, I had to log into GitHub, navigate to the Actions tab, and inspect workflow runs. This was repetitive and inefficient, especially during frequent development iterations where multiple changes were being pushed in a short period of time.
+I developed a CI/CD pipeline monitoring system designed to improve visibility into automated deployments across cloud-based architectures.
 
-To solve this, I built a CI/CD monitoring dashboard using Microsoft Azure services. The system uses Azure Functions to fetch workflow data from the GitHub API and processes the latest CI/CD run information, including status, branch, and timestamps. This data is then displayed on a static frontend hosted on Azure Blob Storage, providing a simple and real-time view of deployment activity.
+## Background
 
-The result is a single, centralised dashboard that removes the need to manually navigate GitHub to check workflow status. Instead of logging into multiple platforms, I can now open one link and immediately see whether my deployments succeeded, failed, or are currently running. This improves visibility, reduces friction in the development workflow, and provides a more efficient way to monitor CI/CD pipelines across different cloud projects.
+As part of an earlier project, I implemented a CI/CD pipeline for an AWS S3-hosted static website. The pipeline allows me to develop and test changes locally, push them to a GitHub repository, and automatically deploy the updated files to an Amazon S3 bucket through GitHub Actions.
 
-Here is a schematic:
+This eliminated the need to manually access AWS, locate the S3 bucket, and upload files after every change. As a result, the deployment process became more consistent, efficient, and less dependent on manual intervention.
+
+However, while the deployment process was automated, monitoring the outcome of each pipeline still required manual intervention. To determine whether a deployment had succeeded or failed, I had to access GitHub, navigate to the Actions section, and inspect individual workflow runs. This became repetitive and inefficient, particularly during periods of frequent development and deployment.
+
+## Solution
+
+To address this limitation, I developed a CI/CD monitoring dashboard using Microsoft Azure services.
+
+The system uses **Azure Functions** to communicate with the **GitHub API**, retrieve workflow information, and process the latest CI/CD run data. Information such as the workflow status, branch, and timestamps is then presented through a static frontend hosted on **Azure Blob Storage**.
+
+This provides a centralised view of deployment activity without requiring manual navigation through GitHub.
+
+## Architecture
+
+The overall architecture allows the deployment pipeline and monitoring system to work together:
+
 <p align="center">
   <img src="frontend/assets/schematic.png" width="900">
 </p>
 
-The CI/CD monitoring website will also need to be updated time to time, so i created a ci/cd pipeline for that as well to be able to locally edit the code and push it into my repository and then it must automatically update the website hosted on Azure Blob.
+The monitoring dashboard provides visibility into whether deployments have:
 
-Here is a schematic of the pipeline that updates the Azure hosted CI/CD monitoring website:
+* Succeeded
+* Failed
+* Are currently running
+
+This makes it possible to monitor deployment activity from a single interface rather than manually checking workflow runs across different platforms.
+
+## CI/CD Pipeline for the Monitoring Dashboard
+
+Because the monitoring dashboard itself requires ongoing development and updates, I also implemented a CI/CD pipeline for the monitoring website.
+
+The pipeline allows me to modify the frontend locally, commit and push the changes to the GitHub repository, and automatically deploy the updated website to Azure Blob Storage.
+
+This means both the original application and the monitoring dashboard follow an automated development and deployment workflow.
+
 <p align="center">
-  <img src="frontend/assets/schematic2.jpg">
+  <img src="frontend/assets/schematic2.jpg" width="900">
 </p>
+
+## Outcome
+
+The project demonstrates how multiple cloud services can be integrated to create an automated development and deployment workflow.
+
+The final system provides:
+
+* Automated application deployments
+* Automated monitoring of GitHub Actions workflows
+* Centralised CI/CD visibility
+* Automated deployment of the monitoring dashboard
+* Reduced manual deployment and monitoring tasks
+* Integration between AWS, Azure, GitHub Actions, and the GitHub API
+
+Overall, the project demonstrates practical experience with cloud infrastructure, serverless computing, APIs, CI/CD automation, and multi-cloud architecture.
